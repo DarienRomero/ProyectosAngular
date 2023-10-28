@@ -1,0 +1,9 @@
+<div 
+    class="button"
+    [style.background-color] = "color"
+    [style.color] = "fontColor"
+    [style.width] = "large ? '130px' : '60px'"
+    (click)="sendDataToParent()"
+>
+    {{letter}}
+</div>

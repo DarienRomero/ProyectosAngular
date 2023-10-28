@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +7,16 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'calculadora-app';
+  content: string; 
+
+  constructor(){
+    this.content = ""
+  }
+
+  handleChildEvent(event: MouseEvent | string) {
+    this.content += event;
+  }
+  helloWorld(){
+    console.log("helloWorld")
+  }
 }
