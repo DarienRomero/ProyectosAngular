@@ -3,7 +3,11 @@
   <hr>
   <div class="row">
       <div class="col">
-        <add-task></add-task>
+        <add-task
+          (onAddTask)="onAddTask($event)"
+        >
+
+        </add-task>
       </div>
       <div class="col">
         <list-tasks

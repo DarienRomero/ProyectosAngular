@@ -1,16 +1,21 @@
-<form class="row">
+<form class="row" (ngSubmit)="emitTask()">
     <input 
         class="form-control mb-2"
         type="text" 
+        name="title"
+        [(ngModel)] = "toCreateTask.title"
         placeholder="Titulo"
     >
     <input 
         class="form-control mb-2"
         type="text" 
+        name="description"
         placeholder="Descripcion"
+        [(ngModel)] = "toCreateTask.description"
     >
     <button
         class="btn btn-primary"
+        type="submit"
     >
         Guardar
     </button>

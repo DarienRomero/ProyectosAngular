@@ -19,7 +19,7 @@ export class MainPageComponent {
   }
 
   onAddTask(task: Task){
-
+    this.todoService.addTask(task);
   }
 
   onDeleteTask( task: Task ) {
