@@ -6,7 +6,11 @@
         <add-task></add-task>
       </div>
       <div class="col">
-        <list-tasks></list-tasks>  
+        <list-tasks
+          [tasks]="tasks"
+          (onDelete)="onDeleteTask($event)"
+        >
+        </list-tasks>  
       </div>
   </div>
 </div>
