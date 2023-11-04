@@ -2,17 +2,12 @@
     <h3 class="text-white">GifsApp</h3>
     <hr class="text-white">
     <div class="list-group">
-        <button class="list-group-item list-group-item-action">
-            Perro
-        </button>
-        <button class="list-group-item list-group-item-action">
-            Gato
-        </button>
-        <button class="list-group-item list-group-item-action">
-            Humano
-        </button>
-        <button class="list-group-item list-group-item-action">
-            Persona
+        <button 
+            *ngFor="let tag of tags" 
+            class="list-group-item list-group-item-action"
+            (click)="onSelect(tag)"
+        >
+            {{tag | titlecase}}
         </button>
     </div>
 </div>
