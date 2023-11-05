@@ -1,7 +1,17 @@
 <div class="wrapper">
   <div class="container">
     <div class="row end">
-      <p class="result">{{content}}</p>
+      <div *ngIf="content.length > 5" class="result-group">
+        <p class="result">
+          {{content | slice:0 : (content.length - 5)}}
+        </p>
+        <p class="result">
+          {{content | slice:-5}}
+        </p>
+      </div>
+      <div *ngIf="content.length <= 5">
+        <p class="result">{{content}}</p>
+      </div>
     </div>
     <div class="row">
       <app-button [letter]="'C'" [color] ="'#949494'" [fontColor]="'black'" (childEvent)="handleChildEvent($event)"/>
@@ -33,7 +43,7 @@
       <app-button 
         [letter]="'='"
         [color] = "'#FD8D0E'"
-        (click)="handleChildEvent($event)"
+        (childEvent)="handleChildEvent($event)"
       />
     </div>
   </div>
