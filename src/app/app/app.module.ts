@@ -3,16 +3,20 @@ import { CommonModule } from '@angular/common';
 import { CreateAppComponent } from './components/create-app/create-app.component';
 import { EditAppComponent } from './components/edit-app/edit-app.component';
 import { ListAppComponent } from './components/list-app/list-app.component';
+import { AppHomeComponent } from './pages/app-home/app-home.component';
+import { AppAppRoutingModule } from './app-routing.module';
 
 
 @NgModule({
   declarations: [
     CreateAppComponent,
     EditAppComponent,
-    ListAppComponent
+    ListAppComponent,
+    AppHomeComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    AppAppRoutingModule,
   ]
 })
-export class AppModule { }
+export class AppAppModule { }

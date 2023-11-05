@@ -4,6 +4,7 @@ import { ListUserComponent } from './components/list-user/list-user.component';
 import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { CreateUserComponent } from './components/create-user/create-user.component';
 import { UserHomeComponent } from './pages/user-home/user-home.component';
+import { UserRoutingModule } from './user-routing.module';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { UserHomeComponent } from './pages/user-home/user-home.component';
     UserHomeComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    UserRoutingModule,
   ],
   exports: [
     UserHomeComponent,

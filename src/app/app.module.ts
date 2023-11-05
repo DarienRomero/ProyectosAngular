@@ -8,6 +8,7 @@ import { UserModule } from './user/user.module';
 import { environment } from 'src/environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
+import { AppAppModule } from './app/app.module';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { AngularFireModule } from '@angular/fire/compat';
     AppRoutingModule,
     SharedModule,
     UserModule,
+    AppAppModule
   ],
   providers: [],
   bootstrap: [AppComponent]
