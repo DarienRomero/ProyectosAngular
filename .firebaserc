@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "apkmanager-12227": {
+      "hosting": {
+        "apk_manager": [
+          "apkmanager-12227"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "apkmanager-12227"
+  }
+}

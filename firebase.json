@@ -1,0 +1,9 @@
+{
+  "hosting": [
+    {
+      "target": "apk_manager",
+      "source": ".",
+      "frameworksBackend": {}
+    }
+  ]
+}
