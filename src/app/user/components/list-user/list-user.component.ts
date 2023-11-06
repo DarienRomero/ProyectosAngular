@@ -13,13 +13,25 @@ export class ListUserComponent {
   ){
 
   }
+
   get users(){
     return this.userService.users;
   }
+
+  get onlyActiveUsers(){
+    return this.userService.onlyActiveUsers;
+  }
+
   onChangeUserEnabledStatus(user: User){
     this.userService.updateUser({
       ...user,
       enabled: !user.enabled
     })
+  }
+  onChangeOnlyActiveUsers(){
+    this.userService.onChangeOnlyActiveUsers();
+  }
+  deleteUser(user: User){
+    this.userService.deleteUser(user);
   }
 }
