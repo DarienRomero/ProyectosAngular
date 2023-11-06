@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, SimpleChanges } from '@angular/core';
 import { User } from '../../interfaces/user.interface';
 import { AppService } from '../../../app/services/app.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { switchMap } from 'rxjs';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -11,6 +10,13 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./edit-user.component.css']
 })
 export class EditUserComponent {
+  public userToEdit: User = {
+    email:        "",
+    enabled:      false,
+    id:           "",
+    username:     "",
+    apps_enabled: []
+  };
   constructor(
     private readonly appService: AppService,
     private readonly userService: UserService,
@@ -19,13 +25,11 @@ export class EditUserComponent {
   ){
 
   }
-  get userToEdit(){
-    console.log("this.userService.userToEdit", this.userService.userToEdit)
-    return this.userService.userToEdit;
-  }
+
   get apps(){
     return this.appService.apps
   }
+
   ngOnInit(): void {
     this.readCurrentUser();
   }
@@ -35,22 +39,31 @@ export class EditUserComponent {
     this.activatedRoute.params.forEach((params: Params)=>{
       id = params['id']
     });
-    console.log("Id froms params", id)
     if(!Boolean(id.length)){
       this.router.navigateByUrl('');
     }
-    console.log("Edited user id: ", id)
-    this.userService.getUser(id)
+    this.userService.getUserObs(id).subscribe(data => {
+      this.userToEdit = data.data() as User;
+    }, error => {
+
+    })
   }
 
-  public toEditUser: User = {
-    email:        "",
-    enabled:      false,
-    id:           "",
-    username:     "",
-    apps_enabled: []
-  };
-  editUser(){
+  onChangeSelectedApp(appId: string){
+    const included = this.userToEdit.apps_enabled.includes(appId);
+    if(included){
+      this.userToEdit.apps_enabled = this.userToEdit.apps_enabled.filter(e => e != appId);
+    }else{
+      this.userToEdit.apps_enabled.push(appId);
+    }
+    console.log("new user", this.userToEdit);
+  }
 
+  editUser(){
+    this.userService.updateUser(this.userToEdit).then((result) => {
+      this.router.navigateByUrl("/users")
+    }).catch((err) => {
+      
+    });;
   }
 }

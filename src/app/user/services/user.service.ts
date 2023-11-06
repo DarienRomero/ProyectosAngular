@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { User } from "../interfaces/user.interface";
-import { Observable, Subscription } from "rxjs";
+import { Subscription } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -50,32 +50,12 @@ export class UserService {
             this.loadingUsers = false;
         });
     }
-    public loadingToEditUser = false;
-    public errorToEditUser = false;
-    public userToEdit: User = {
-        email:        "",
-        enabled:      false,
-        id:           "",
-        username:     "",
-        apps_enabled: []
-    };
 
-    getUser(userId: string) {
-        this.loadingToEditUser = true;
-        this.errorToEditUser = false;
+    getUserObs(userId: string) {
         this.userStream?.unsubscribe();
-        this.userStream = this.usersRef.doc(userId).get().subscribe(data => {
-            this.errorToEditUser = false;
-            this.loadingToEditUser = false;
-            this.userToEdit = data.data() as User;
-            console.log("GEt user resp", this.userToEdit)
-        }, error => {
-            console.log('GEt user error')
-            this.errorToEditUser = true;
-            this.loadingToEditUser = false;
-        });
-        return undefined;
+        return this.usersRef.doc(userId).get();
     }
+
     updateUser(user: User){
         return this.usersRef.doc(user.id).update(user);
     }
