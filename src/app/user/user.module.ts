@@ -6,6 +6,7 @@ import { CreateUserComponent } from './components/create-user/create-user.compon
 import { UserHomeComponent } from './pages/user-home/user-home.component';
 import { UserRoutingModule } from './user-routing.module';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     UserRoutingModule,
-    RouterModule
+    RouterModule,
+    FormsModule
   ],
   exports: [
     UserHomeComponent,

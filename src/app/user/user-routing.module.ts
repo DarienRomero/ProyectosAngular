@@ -6,7 +6,7 @@ import { ListUserComponent } from './components/list-user/list-user.component';
 
 const routes: Routes = [
   {
-    path: 'edit',
+    path: 'edit/:id',
     component: EditUserComponent,
   },
   {

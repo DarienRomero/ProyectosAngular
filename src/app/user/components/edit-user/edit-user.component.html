@@ -1,1 +1,32 @@
-<p>edit-user works!</p>
+<div class="row d-flex f-row justify-content-center align-items-center edit-user-canvas">
+    <div class="col-10 col-md-8 col-lg-6">
+        <form #formEditUser="ngForm" class="row" id="form-edit-user" (ngSubmit)="editUser()">
+            <input 
+                class="form-control mb-2"
+                type="text" 
+                name="username"
+                [(ngModel)] = "toEditUser.username"
+                placeholder="Nombre de usuario"
+                required="true"
+            >
+            <div *ngFor="let app of apps" class="form-check mb-2">
+                <input 
+                  class="form-check-input" 
+                  type="checkbox" 
+                  value="" 
+                  id="flexCheckDefault"
+                >
+                <label class="form-check-label" for="flexCheckDefault">
+                  {{app.name}}
+                </label>
+            </div>
+            <button
+                class="btn btn-primary mt-2"
+                type="submit"
+                [disabled]="!formEditUser.form.valid"
+            >
+                Guardar
+            </button>
+        </form>
+    </div>
+</div>

@@ -15,6 +15,7 @@ export class UserService {
     public users: User[] = [];
 
     public usersStream: Subscription | undefined;
+    public userStream: Subscription | undefined;
 
     public onlyActiveUsers = false;
 
@@ -48,6 +49,32 @@ export class UserService {
             this.errorUsers = true;
             this.loadingUsers = false;
         });
+    }
+    public loadingToEditUser = false;
+    public errorToEditUser = false;
+    public userToEdit: User = {
+        email:        "",
+        enabled:      false,
+        id:           "",
+        username:     "",
+        apps_enabled: []
+    };
+
+    getUser(userId: string) {
+        this.loadingToEditUser = true;
+        this.errorToEditUser = false;
+        this.userStream?.unsubscribe();
+        this.userStream = this.usersRef.doc(userId).get().subscribe(data => {
+            this.errorToEditUser = false;
+            this.loadingToEditUser = false;
+            this.userToEdit = data.data() as User;
+            console.log("GEt user resp", this.userToEdit)
+        }, error => {
+            console.log('GEt user error')
+            this.errorToEditUser = true;
+            this.loadingToEditUser = false;
+        });
+        return undefined;
     }
     updateUser(user: User){
         return this.usersRef.doc(user.id).update(user);
