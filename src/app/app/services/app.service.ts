@@ -40,6 +40,11 @@ export class AppService {
             this.loadingApps = false;
         });
     }
+
+    getAppObs(appId: string) {
+        return this.appsRef.doc(appId).get();
+    }
+
     updateApp(app: AppApp){
         return this.appsRef.doc(app.id).update(app);
     }

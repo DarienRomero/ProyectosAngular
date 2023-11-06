@@ -6,7 +6,7 @@ import { ListAppComponent } from './components/list-app/list-app.component';
 
 const routes: Routes = [
   {
-    path: 'edit',
+    path: 'edit/:id',
     component: EditAppComponent,
   },
   {

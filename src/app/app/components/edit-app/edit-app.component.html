@@ -1,1 +1,49 @@
-<p>edit-app works!</p>
+<div class="row d-flex f-row justify-content-center align-items-center edit-app-canvas">
+    <div class="col-10 col-md-8 col-lg-6">
+        <form #formEditApp="ngForm" class="row" id="form-edit-user" (ngSubmit)="editApp()">
+            <label class="mb-2 ms-0">Nombre de app</label>
+            <input 
+                class="form-control mb-2"
+                type="text" 
+                name="name"
+                [(ngModel)] = "appToEdit.name"
+                placeholder="Nombre de app"
+                required="true"
+            >
+            <label class="mb-2">Número de versión</label>
+            <input 
+                class="form-control mb-2"
+                type="number" 
+                name="number_version"
+                [(ngModel)] = "appToEdit.last_version_number"
+                placeholder="Número de versión"
+                required="true"
+            >
+            <label class="mb-2">Texto de versión</label>
+            <input 
+                class="form-control mb-2"
+                type="text" 
+                name="text_version"
+                [(ngModel)] = "appToEdit.last_version_string"
+                placeholder="Texto de versión"
+                required="true"
+            >
+            <label class="mb-2">Link de versión</label>
+            <input 
+                class="form-control mb-2"
+                type="text" 
+                name="link_version"
+                [(ngModel)] = "appToEdit.last_version_link"
+                placeholder="Link de versión"
+                required="true"
+            >
+            <button
+                class="btn btn-primary mt-2"
+                type="submit"
+                [disabled]="!formEditApp.form.valid"
+            >
+                Guardar
+            </button>
+        </form>
+    </div>
+</div>
