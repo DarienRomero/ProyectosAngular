@@ -10,11 +10,19 @@
                 required="true"
             >
             <input 
-                class="form-control mb-3"
+                class="form-control mb-2"
                 type="text" 
                 name="email"
                 [(ngModel)] = "userToCreate.email"
                 placeholder="Correo electrónico"
+                required="true"
+            >
+            <input 
+                class="form-control mb-3"
+                type="text" 
+                name="password"
+                [(ngModel)] = "password"
+                placeholder="Contraseña"
                 required="true"
             >
             <div *ngFor="let app of apps" class="form-check mb-2">

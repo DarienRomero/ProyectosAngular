@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { User } from '../../interfaces/user.interface';
+import { AppUser } from '../../interfaces/user.interface';
 import { AppService } from 'src/app/app/services/app.service';
 import { UserService } from '../../services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,13 +10,14 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./create-user.component.css']
 })
 export class CreateUserComponent {
-  public userToCreate: User = {
+  public userToCreate: AppUser = {
     email:        "",
     enabled:      true,
     id:           "",
     username:     "",
     apps_enabled: []
   };
+  public password = "";
   constructor(
     private readonly appService: AppService,
     private readonly userService: UserService,
@@ -40,11 +41,12 @@ export class CreateUserComponent {
     console.log("new user", this.userToCreate);
   }
 
-  createUser(){
-    this.userService.updateUser(this.userToCreate).then((result) => {
+  async createUser() {
+    try {
+      await this.userService.createUser(this.userToCreate, this.password);
       this.router.navigateByUrl("/users")
-    }).catch((err) => {
-      
-    });;
+    } catch (error) {
+      this.router.navigateByUrl("/users")
+    }
   }
 }

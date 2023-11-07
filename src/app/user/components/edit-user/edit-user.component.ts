@@ -1,5 +1,5 @@
 import { Component, SimpleChanges } from '@angular/core';
-import { User } from '../../interfaces/user.interface';
+import { AppUser } from '../../interfaces/user.interface';
 import { AppService } from '../../../app/services/app.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
@@ -10,7 +10,7 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./edit-user.component.css']
 })
 export class EditUserComponent {
-  public userToEdit: User = {
+  public userToEdit: AppUser = {
     email:        "",
     enabled:      false,
     id:           "",
@@ -43,7 +43,7 @@ export class EditUserComponent {
       this.router.navigateByUrl('');
     }
     this.userService.getUserObs(id).subscribe(data => {
-      this.userToEdit = data.data() as User;
+      this.userToEdit = data.data() as AppUser;
     }, error => {
 
     })

@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
-import { User } from "../interfaces/user.interface";
 import { Subscription } from "rxjs";
+import { AngularFireAuth } from "@angular/fire/compat/auth";
+import { AppUser } from "../interfaces/user.interface";
 
 @Injectable({
     providedIn: 'root'
@@ -12,18 +13,21 @@ export class UserService {
     
     public loadingUsers = false;
     public errorUsers = false;
-    public users: User[] = [];
+    public users: AppUser[] = [];
 
     public usersStream: Subscription | undefined;
     public userStream: Subscription | undefined;
 
     public onlyActiveUsers = false;
 
-    usersRef: AngularFirestoreCollection<User>;
+    usersRef: AngularFirestoreCollection<AppUser>;
 
     public database: AngularFirestore;
 
-    constructor(private db: AngularFirestore) {
+    constructor(
+        private db: AngularFirestore,
+        private afAuth: AngularFireAuth,
+    ) {
         this.database = db;
         this.usersRef = db.collection(this.dbPath);
         this.getUsers()
@@ -44,7 +48,7 @@ export class UserService {
         this.usersStream = query.valueChanges().subscribe(data => {
             this.errorUsers = false;
             this.loadingUsers = false;
-            this.users = data as User[];
+            this.users = data as AppUser[];
         }, error => {
             this.errorUsers = true;
             this.loadingUsers = false;
@@ -56,13 +60,37 @@ export class UserService {
         return this.usersRef.doc(userId).get();
     }
 
-    updateUser(user: User){
+    updateUser(user: AppUser){
         return this.usersRef.doc(user.id).update(user);
     }
 
-    deleteUser(user: User){
+    deleteUser(user: AppUser){
         return this.usersRef.doc(user.id).delete();
     }
+
+    async createUser(newUser: AppUser, password: string): Promise<AppUser> {
+        try {
+          const userCredential = await this.afAuth.createUserWithEmailAndPassword(
+            newUser.email,
+            password
+          )
+          if(!userCredential.user){
+            throw "No user created";
+          }
+          const user: AppUser = {
+            id: userCredential.user.uid,
+            email: newUser.email,
+            apps_enabled: newUser.apps_enabled,
+            enabled: newUser.enabled,
+            username: newUser.username
+          };
+          await this.usersRef.doc(user.id).set(user);
+          return user;
+        } catch (error) {
+          console.error('Error registering user:', error);
+          throw error;
+        }
+      }
 
     /* getAll(): AngularFirestoreCollection<Tutorial> {
         return this.tutorialsRef;

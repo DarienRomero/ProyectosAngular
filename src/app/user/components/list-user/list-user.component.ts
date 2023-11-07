@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { UserService } from '../../services/user.service';
-import { User } from '../../interfaces/user.interface';
+import { AppUser } from '../../interfaces/user.interface';
 
 @Component({
   selector: 'list-user',
@@ -22,7 +22,7 @@ export class ListUserComponent {
     return this.userService.onlyActiveUsers;
   }
 
-  onChangeUserEnabledStatus(user: User){
+  onChangeUserEnabledStatus(user: AppUser){
     this.userService.updateUser({
       ...user,
       enabled: !user.enabled
@@ -31,7 +31,7 @@ export class ListUserComponent {
   onChangeOnlyActiveUsers(){
     this.userService.onChangeOnlyActiveUsers();
   }
-  deleteUser(user: User){
+  deleteUser(user: AppUser){
     this.userService.deleteUser(user);
   }
 }

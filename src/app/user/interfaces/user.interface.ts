@@ -1,4 +1,4 @@
-export interface User {
+export interface AppUser {
     email:        string;
     enabled:      boolean;
     id:           string;
