@@ -85,12 +85,20 @@ export class UserService {
             username: newUser.username
           };
           await this.usersRef.doc(user.id).set(user);
+          await this.afAuth.sendPasswordResetEmail(newUser.email);
           return user;
         } catch (error) {
           console.error('Error registering user:', error);
           throw error;
         }
       }
+    async changePassword(email: string){
+        try{
+            await this.afAuth.sendPasswordResetEmail(email);
+        }catch(error){
+
+        }
+    } 
 
     /* getAll(): AngularFirestoreCollection<Tutorial> {
         return this.tutorialsRef;

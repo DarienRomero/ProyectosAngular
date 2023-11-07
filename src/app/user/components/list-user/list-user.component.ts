@@ -34,4 +34,7 @@ export class ListUserComponent {
   deleteUser(user: AppUser){
     this.userService.deleteUser(user);
   }
+  onResendEmail(user: AppUser){
+    this.userService.changePassword(user.email)
+  }
 }

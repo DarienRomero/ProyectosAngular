@@ -60,10 +60,16 @@
               Editar
             </button>
             <button 
-              class="btn btn-danger"
+              class="btn btn-danger me-2"
               (click)="deleteUser(user)"
             >
               Eliminar
+            </button>
+            <button 
+              class="btn btn-primary"
+              (click)="onResendEmail(user)"
+            >
+              <img style="width: 20px; height: 20px;" src="/assets/icons/resend-icon.svg" alt="Resend">
             </button>
           </td>
         </tr>
