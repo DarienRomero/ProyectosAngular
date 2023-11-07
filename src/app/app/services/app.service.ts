@@ -48,6 +48,18 @@ export class AppService {
     updateApp(app: AppApp){
         return this.appsRef.doc(app.id).update(app);
     }
+    
+    async createApp(app: AppApp){
+        try{
+            const respAddApp = await this.appsRef.add(app);
+            await this.appsRef.doc(respAddApp.id).update({
+                ...app,
+                id: respAddApp.id
+            });
+        }catch(error){
+
+        }
+    }
 
     deleteApp(app: AppApp){
         return this.appsRef.doc(app.id).delete();

@@ -1,22 +1,25 @@
 <div class="row d-flex f-row justify-content-center align-items-center create-user-canvas">
     <div class="col-10 col-md-8 col-lg-6">
         <form #formCreateUser="ngForm" class="row" id="form-create-user" (ngSubmit)="createUser()">
+            <label class="mb-2 ps-0">Nombre de usuario</label>
             <input 
-                class="form-control mb-2"
+                class="form-control mb-3"
                 type="text" 
                 name="username"
                 [(ngModel)] = "userToCreate.username"
                 placeholder="Nombre de usuario"
                 required="true"
             >
+            <label class="mb-2 ps-0">Correo electrónico</label>
             <input 
-                class="form-control mb-2"
+                class="form-control mb-3"
                 type="text" 
                 name="email"
                 [(ngModel)] = "userToCreate.email"
                 placeholder="Correo electrónico"
                 required="true"
             >
+            <label class="mb-2 ps-0">Contraseña</label>
             <input 
                 class="form-control mb-3"
                 type="text" 
@@ -25,6 +28,7 @@
                 placeholder="Contraseña"
                 required="true"
             >
+            <label class="mb-2 ps-0">Aplicaciones disponibles</label>
             <div *ngFor="let app of apps" class="form-check mb-2">
                 <input 
                   class="form-check-input" 

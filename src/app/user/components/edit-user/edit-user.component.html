@@ -1,14 +1,16 @@
 <div class="row d-flex f-row justify-content-center align-items-center edit-user-canvas">
     <div class="col-10 col-md-8 col-lg-6">
         <form #formEditUser="ngForm" class="row" id="form-edit-user" (ngSubmit)="editUser()">
+            <label class="mb-2 ps-0">Nombre de usuario</label>
             <input 
-                class="form-control mb-2"
+                class="form-control mb-3"
                 type="text" 
                 name="username"
                 [(ngModel)] = "userToEdit.username"
                 placeholder="Nombre de usuario"
                 required="true"
             >
+            <label class="mb-2 ps-0">Aplicaciones disponibles</label>
             <div *ngFor="let app of apps" class="form-check mb-2">
                 <input 
                   class="form-check-input" 

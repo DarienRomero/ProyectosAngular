@@ -1,1 +1,58 @@
-<p>create-app works!</p>
+<div class="row d-flex f-row justify-content-center align-items-center create-app-canvas">
+    <div class="col-10 col-md-8 col-lg-6">
+        <form #formCreateApp="ngForm" class="row" id="form-create-app" (ngSubmit)="onCreateApp()">
+            <label class="mb-2 ps-0">Nombre</label>
+            <input 
+                class="form-control mb-3"
+                type="text" 
+                name="name"
+                [(ngModel)] = "appToCreate.name"
+                placeholder="Nombre"
+                required="true"
+            >
+            <label class="mb-2 ps-0">Link de la versión</label>
+            <input 
+                class="form-control mb-3"
+                type="text" 
+                name="last_version_link"
+                [(ngModel)] = "appToCreate.last_version_link"
+                placeholder="Link de la versión"
+                required="true"
+            >
+            <label class="mb-2 ps-0">Número de versión</label>
+            <input 
+                class="form-control mb-3"
+                type="number" 
+                name="last_version_number"
+                [(ngModel)] = "appToCreate.last_version_number"
+                placeholder="Número de versión"
+                required="true"
+            >
+            <label class="mb-2 ps-0">Texto de versión</label>
+            <input 
+                class="form-control mb-3"
+                type="text" 
+                name="last_version_string"
+                [(ngModel)] = "appToCreate.last_version_string"
+                placeholder="Texto de versión"
+                required="true"
+            >
+            <label class="mb-2 ps-0">Link del logo</label>
+            <input 
+                class="form-control mb-3"
+                type="text" 
+                name="logo"
+                [(ngModel)] = "appToCreate.logo"
+                placeholder="Link del logo"
+                required="true"
+            >
+            <button
+                class="btn btn-primary mt-2"
+                type="submit"
+                [disabled]="!formCreateApp.form.valid"
+            >
+                Crear app
+            </button>
+        </form>
+    </div>
+</div>
