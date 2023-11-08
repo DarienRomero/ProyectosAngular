@@ -64,6 +64,6 @@ export class EditUserComponent {
       this.router.navigateByUrl("/users")
     }).catch((err) => {
       
-    });;
+    });
   }
 }
