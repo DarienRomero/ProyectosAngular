@@ -10,6 +10,15 @@
                 placeholder="Nombre"
                 required="true"
             >
+            <label class="mb-2 ps-0">Nombre de paquete de Android</label>
+            <input 
+                class="form-control mb-3"
+                type="text" 
+                name="package_name"
+                [(ngModel)] = "appToCreate.package_name"
+                placeholder="Package name"
+                required="true"
+            >
             <label class="mb-2 ps-0">Link de la versión</label>
             <input 
                 class="form-control mb-3"

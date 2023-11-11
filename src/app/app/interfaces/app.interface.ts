@@ -5,4 +5,5 @@ export interface AppApp {
     last_version_string: string;
     logo: string;
     name: string;
+    package_name: string;
 }

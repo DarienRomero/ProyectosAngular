@@ -10,6 +10,15 @@
                 placeholder="Nombre de app"
                 required="true"
             >
+            <label class="mb-2 ps-0">Nombre de paquete de Android</label>
+            <input 
+                class="form-control mb-3"
+                type="text" 
+                name="package_name"
+                [(ngModel)] = "appToEdit.package_name"
+                placeholder="Package name"
+                required="true"
+            >
             <label class="mb-2">Número de versión</label>
             <input 
                 class="form-control mb-2"

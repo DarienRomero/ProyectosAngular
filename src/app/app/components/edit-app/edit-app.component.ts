@@ -16,7 +16,8 @@ export class EditAppComponent {
     last_version_number: 0,
     last_version_string: "",
     logo: "",
-    name: ""
+    name: "",
+    package_name: ""
   };
   public oldApp: AppApp = {
     id: "",
@@ -24,7 +25,8 @@ export class EditAppComponent {
     last_version_number: 0,
     last_version_string: "",
     logo: "",
-    name: ""
+    name: "",
+    package_name: ""
   };
   constructor(
     private readonly appService: AppService,
