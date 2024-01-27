@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
-import { Observable, Subscription } from "rxjs";
+import { Subscription } from "rxjs";
 import { AppApp } from "../interfaces/app.interface";
 
 @Injectable({
@@ -46,7 +46,10 @@ export class AppService {
     }
 
     updateApp(app: AppApp){
-        return this.appsRef.doc(app.id).update(app);
+        return this.appsRef.doc(app.id).update({
+            ...app,
+            updated_at: new Date()
+        });
     }
     
     async createApp(app: AppApp){
@@ -54,7 +57,8 @@ export class AppService {
             const respAddApp = await this.appsRef.add(app);
             await this.appsRef.doc(respAddApp.id).update({
                 ...app,
-                id: respAddApp.id
+                id: respAddApp.id,
+                updated_at: new Date()
             });
         }catch(error){
 

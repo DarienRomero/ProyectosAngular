@@ -6,4 +6,5 @@ export interface AppApp {
     logo: string;
     name: string;
     package_name: string;
+    updated_at?: Date
 }
