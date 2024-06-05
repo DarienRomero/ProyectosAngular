@@ -7,6 +7,7 @@ import { UserHomeComponent } from './pages/user-home/user-home.component';
 import { UserRoutingModule } from './user-routing.module';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { ClipboardModule } from 'ngx-clipboard';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { FormsModule } from '@angular/forms';
     CommonModule,
     UserRoutingModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    ClipboardModule
   ],
   exports: [
     UserHomeComponent,

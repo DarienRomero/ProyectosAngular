@@ -19,7 +19,11 @@
         <tbody>
             <tr *ngFor="let app of apps; let i = index;">
             <th scope="row">{{i + 1}}</th>
-            <td>{{app.id}}</td>
+            <td>
+                <button (cbOnSuccess)="onCopyToClipboard($event)" ngxClipboard [cbContent]="app.id" class="copy-to-clipboard">
+                    {{app.id}}
+                </button>
+            </td>
             <td>{{app.name}}</td>
             <td>
                 <button 

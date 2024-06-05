@@ -10,6 +10,9 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AppAppModule } from './app/app.module';
 import { HttpClientModule } from '@angular/common/http';
+import { ClipboardModule } from 'ngx-clipboard';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,10 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
     SharedModule,
     UserModule,
-    AppAppModule
+    AppAppModule,
+    ClipboardModule,
+    MatSnackBarModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

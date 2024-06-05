@@ -34,7 +34,12 @@
       <tbody>
         <tr *ngFor="let user of users; let i = index;">
           <th scope="row">{{i + 1}}</th>
-          <td>{{user.id}}</td>
+          
+          <td>
+            <button (cbOnSuccess)="onCopyToClipboard($event)" ngxClipboard [cbContent]="user.id" class="copy-to-clipboard">
+              {{user.id}}
+          </button>
+          </td>
           <td>{{user.username}}</td>
           <td>{{user.email}}</td>
           <td>

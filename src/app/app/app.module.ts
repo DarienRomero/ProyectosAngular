@@ -6,6 +6,7 @@ import { ListAppComponent } from './components/list-app/list-app.component';
 import { AppHomeComponent } from './pages/app-home/app-home.component';
 import { AppAppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
+import { ClipboardModule } from 'ngx-clipboard';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { FormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     AppAppRoutingModule,
-    FormsModule
+    FormsModule,
+    ClipboardModule
   ]
 })
 export class AppAppModule { }

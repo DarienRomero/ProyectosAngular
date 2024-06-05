@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { AppService } from '../../services/app.service';
 import { AppApp } from '../../interfaces/app.interface';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { IClipboardResponse } from 'ngx-clipboard';
 
 @Component({
   selector: 'list-app',
@@ -9,7 +11,8 @@ import { AppApp } from '../../interfaces/app.interface';
 })
 export class ListAppComponent {
   constructor(
-    private readonly appService: AppService
+    private readonly appService: AppService,
+    private snackBar: MatSnackBar
   ){
 
   }
@@ -20,5 +23,11 @@ export class ListAppComponent {
 
   deleteApp(app: AppApp){
     this.appService.deleteApp(app);
+  }
+  onCopyToClipboard(data: IClipboardResponse){
+    console.log("onCopyToClipboard")
+    this.snackBar.open("Copiado al portapapeles", "Cerrar", {
+      duration: 3000
+    });
   }
 }
