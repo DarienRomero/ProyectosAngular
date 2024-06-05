@@ -46,6 +46,15 @@
                 placeholder="Link de versión"
                 required="true"
             >
+            <label class="mb-2">Link del logo</label>
+            <input 
+                class="form-control mb-2"
+                type="text" 
+                name="link_logo"
+                [(ngModel)] = "appToEdit.logo"
+                placeholder="Link de logo"
+                required="true"
+            >
             <button
                 class="btn btn-primary mt-2"
                 type="submit"

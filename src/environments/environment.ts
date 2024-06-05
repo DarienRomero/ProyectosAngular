@@ -1,3 +1,4 @@
+//GENERAL
 export const environment = {
     production: false,
     firebase: {
@@ -10,3 +11,16 @@ export const environment = {
         measurementId: "G-BV1WCJJ5V7"
     }
   };
+//MB
+/* export const environment = {
+    production: false,
+    firebase: {
+        apiKey: "AIzaSyBsKuWt6qdEPoFCaXGSSX7Fgtt9r0u4HWM",
+        authDomain: "apkmanagermb.firebaseapp.com",
+        projectId: "apkmanagermb",
+        storageBucket: "apkmanagermb.appspot.com",
+        messagingSenderId: "175684818169",
+        appId: "1:175684818169:web:b42f332492e55122d87e28",
+        measurementId: "G-QXCDFD7DEH"
+    }
+  }; */
