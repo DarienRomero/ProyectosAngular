@@ -3,6 +3,7 @@ import { AppUser } from '../../interfaces/user.interface';
 import { AppService } from 'src/app/app/services/app.service';
 import { UserService } from '../../services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'create-user',
@@ -44,6 +45,13 @@ export class CreateUserComponent {
   async createUser() {
     try {
       await this.userService.createUser(this.userToCreate, this.password);
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        text: 'Se creó correctamente',
+        showConfirmButton: false,
+        timer: 5000
+      });
       this.router.navigateByUrl("/users")
     } catch (error) {
       this.router.navigateByUrl("/users")

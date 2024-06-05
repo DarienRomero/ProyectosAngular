@@ -3,6 +3,7 @@ import { AppUser } from '../../interfaces/user.interface';
 import { AppService } from '../../../app/services/app.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'edit-user',
@@ -61,6 +62,13 @@ export class EditUserComponent {
 
   editUser(){
     this.userService.updateUser(this.userToEdit).then((result) => {
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        text: 'Se actualizó correctamente',
+        showConfirmButton: false,
+        timer: 5000
+      });
       this.router.navigateByUrl("/users")
     }).catch((err) => {
       

@@ -3,6 +3,7 @@ import { AppApp } from '../../interfaces/app.interface';
 import { AppService } from '../../services/app.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NotifService } from 'src/app/shared/services/notif.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'edit-app',
@@ -63,6 +64,13 @@ export class EditAppComponent {
     }
     this.notifService.sendNotificationToTopic(this.appToEdit);
     this.appService.updateApp(this.appToEdit).then((result) => {
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        text: 'Se actualizó correctamente',
+        showConfirmButton: false,
+        timer: 5000
+      });
       this.router.navigateByUrl("/apps")
     }).catch((err) => {
       

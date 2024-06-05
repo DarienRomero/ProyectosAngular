@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AppApp } from '../../interfaces/app.interface';
 import { AppService } from '../../services/app.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'create-app',
@@ -30,6 +31,13 @@ export class CreateAppComponent {
   async onCreateApp() {
     try {
       await this.appService.createApp(this.appToCreate);
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        text: 'Se creó correctamente',
+        showConfirmButton: false,
+        timer: 5000
+      });
       this.router.navigateByUrl("/apps")
     } catch (error) {
       this.router.navigateByUrl("/apps")
