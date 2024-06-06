@@ -37,15 +37,6 @@
                 placeholder="Texto de versión"
                 required="true"
             >
-            <label class="mb-2">Link de versión</label>
-            <input 
-                class="form-control mb-2"
-                type="text" 
-                name="link_version"
-                [(ngModel)] = "appToEdit.last_version_link"
-                placeholder="Link de versión"
-                required="true"
-            >
             <label class="mb-2">Link del logo</label>
             <input 
                 class="form-control mb-2"
@@ -55,11 +46,23 @@
                 placeholder="Link de logo"
                 required="true"
             >
+            <label class="mb-2">APK</label>
+            <input 
+                class="form-control mb-2"
+                type="file" 
+                (change)="onFileSelected($event)"
+                name="apk"
+                placeholder="APK"
+            >
             <button
                 class="btn btn-primary mt-2"
                 type="submit"
+                loading
                 [disabled]="!formEditApp.form.valid"
             >
+                <div *ngIf="editing" class="spinner-border" role="status">
+                    <span class="sr-only">.</span>
+                </div>
                 Guardar
             </button>
         </form>
