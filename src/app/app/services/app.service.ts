@@ -52,7 +52,7 @@ export class AppService {
         });
     }
     
-    async createApp(app: AppApp){
+    async createApp(app: AppApp): Promise<string>{
         try{
             const respAddApp = await this.appsRef.add(app);
             await this.appsRef.doc(respAddApp.id).update({
@@ -60,8 +60,9 @@ export class AppService {
                 id: respAddApp.id,
                 updated_at: new Date()
             });
+            return respAddApp.id
         }catch(error){
-
+            return ""
         }
     }
 

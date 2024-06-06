@@ -19,15 +19,6 @@
                 placeholder="Package name"
                 required="true"
             >
-            <label class="mb-2 ps-0">Link de la versión</label>
-            <input 
-                class="form-control mb-3"
-                type="text" 
-                name="last_version_link"
-                [(ngModel)] = "appToCreate.last_version_link"
-                placeholder="Link de la versión"
-                required="true"
-            >
             <label class="mb-2 ps-0">Número de versión</label>
             <input 
                 class="form-control mb-3"
@@ -53,6 +44,15 @@
                 name="logo"
                 [(ngModel)] = "appToCreate.logo"
                 placeholder="Link del logo"
+                required="true"
+            >
+            <label class="mb-2">APK</label>
+            <input 
+                class="form-control mb-2"
+                type="file" 
+                (change)="onFileSelected($event)"
+                name="apk"
+                placeholder="APK"
                 required="true"
             >
             <button
