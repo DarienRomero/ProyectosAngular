@@ -75,7 +75,6 @@ export class EditAppComponent {
   }
 
   editApp(){
-    this.onSendNotification()
     this.onUploadFile()
   }
   onSendNotification(){
@@ -126,6 +125,7 @@ export class EditAppComponent {
   onUpdateApp(){
     this.appService.updateApp(this.appToEdit).then((result) => {
       this.editing = false;
+      this.onSendNotification()
       Swal.fire({
         position: 'center',
         icon: 'success',
