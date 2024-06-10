@@ -1,6 +1,5 @@
-//GENERAL
 export const environment = {
-    production: false,
+    production: true,
     firebase: {
         apiKey: "AIzaSyDKXvnWRvD7XbggmVLe-cKN_RAcFomFTz4",
         authDomain: "apkmanager-12227.firebaseapp.com",
@@ -10,5 +9,5 @@ export const environment = {
         appId: "1:356214299229:web:2562e66a8f3d0bef3b0bb4",
         measurementId: "G-BV1WCJJ5V7"
     },
-    backendUrl: 'http://localhost:3000',
+    backendUrl: 'https://apkmanagerbackend-production.up.railway.app',
   };

@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpEvent, HttpEventType, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FileUploadService {
 
-  private uploadUrl = 'https://apkmanagerbackend-production.up.railway.app';
+  private uploadUrl = environment.backendUrl;
 
   constructor(private http: HttpClient) { }
 
