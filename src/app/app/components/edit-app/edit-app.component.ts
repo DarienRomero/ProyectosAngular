@@ -138,4 +138,18 @@ export class EditAppComponent {
       
     });
   }
+  openLastApk(event: Event){
+    event.preventDefault();
+    if(!this.appToEdit.last_version_link || this.appToEdit.last_version_link.length == 0){
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        text: 'No hay un link disponible',
+        showConfirmButton: false,
+        timer: 5000
+      });
+      return;
+    }
+    window.open(this.appToEdit.last_version_link, "_blank");
+  }
 }

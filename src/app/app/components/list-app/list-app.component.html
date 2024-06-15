@@ -13,6 +13,7 @@
             <th scope="col">#</th>
             <th scope="col">ID</th>
             <th scope="col">Nombre de app</th>
+            <th scope="col">URL APK</th>
             <th scope="col">Acciones</th>
             </tr>
         </thead>
@@ -25,6 +26,10 @@
                 </button>
             </td>
             <td>{{app.name}}</td>
+            <td>
+                <button (cbOnSuccess)="onCopyToClipboard($event)" ngxClipboard [cbContent]="app.last_version_link" class="copy-to-clipboard">
+                    {{app.last_version_link.substring(0, 40)}}...
+                </button>
             <td>
                 <button 
                 class="btn btn-outline-primary me-2"
