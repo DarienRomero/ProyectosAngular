@@ -8,6 +8,7 @@ import { UserRoutingModule } from './user-routing.module';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ClipboardModule } from 'ngx-clipboard';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { ClipboardModule } from 'ngx-clipboard';
   ],
   imports: [
     CommonModule,
+    SharedModule,
     UserRoutingModule,
     RouterModule,
     FormsModule,

@@ -11,15 +11,21 @@ import Swal from 'sweetalert2';
   styleUrls: ['./list-user.component.css']
 })
 export class ListUserComponent {
-  public page = 1;
   constructor(
     private readonly userService: UserService,
     private snackBar: MatSnackBar
   ){
-    this.page = this.userService.page;
-    this.userService.pageChangeSubject.subscribe(value => {
-      this.page = value;
-    });
+  }
+
+  get page(){
+    return this.userService.page;
+  }
+
+  get disabledNext(){
+    return this.users.length < this.userService.perPage;
+  }
+  get loadingUsers(){
+    return this.userService.loadingUsers;
   }
 
   get users(){

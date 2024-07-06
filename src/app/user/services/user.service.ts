@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { AngularFirestore, AngularFirestoreCollection, DocumentData, QueryDocumentSnapshot } from '@angular/fire/compat/firestore';
+import { AngularFirestore, AngularFirestoreCollection, DocumentData, DocumentSnapshot, QueryDocumentSnapshot } from '@angular/fire/compat/firestore';
 import { Subject, Subscription } from "rxjs";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { AppUser } from "../interfaces/user.interface";
@@ -27,7 +27,8 @@ export class UserService {
     public perPage = 5;
     public page = 1;
     public pageChangeSubject: Subject<number> = new Subject<number>();
-    public startAfter?: any
+    public startAfter?: DocumentSnapshot<AppUser>;
+    public startAfterSubject: Subject<number> = new Subject<number>();
     public snapshotSubscription?: Subscription;
 
     constructor(
@@ -71,7 +72,6 @@ export class UserService {
                 q = ref.orderBy('username').limit(perPage)
             }
             if(startAfter){
-                console.log("Apply filter", startAfter)
                 q = q.startAfter(startAfter)
             }
             return q;
@@ -79,15 +79,23 @@ export class UserService {
         this.usersStream?.unsubscribe();
         this.usersStream = query.valueChanges().subscribe({
             next: (data) => {
-                this.errorUsers = false;
-                this.loadingUsers = false;
                 this.users = data as AppUser[];
-                this.snapshotSubscription = this.usersRef.doc(this.users[this.users.length - 1].id).get().subscribe({
-                    next: (data) => {
-                        this.startAfter = data;
-                        this.snapshotSubscription?.unsubscribe();
-                    }
-                })
+                if(this.users.length > 0){
+                    this.snapshotSubscription = this.usersRef.doc(this.users[this.users.length - 1].id).get().subscribe({
+                        next: (data) => {
+                            // @ts-ignore:next-line
+                            this.startAfter = data;
+                            this.errorUsers = false;
+                            this.loadingUsers = false;
+                            this.snapshotSubscription?.unsubscribe();
+                        }
+                    })
+                }else{
+                    this.startAfter = undefined;
+                    this.errorUsers = false;
+                    this.loadingUsers = false;
+                    this.snapshotSubscription?.unsubscribe();
+                }
             },
             error: (e) => {
                 this.errorUsers = true;
