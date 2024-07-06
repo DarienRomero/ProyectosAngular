@@ -21,63 +21,65 @@
     </div>
   </div>
   <table class="table table-striped table-hover table-bordered">
-      <thead class="table-dark">
-        <tr>
-          <th scope="col">#</th>
-          <th scope="col">ID</th>
-          <th scope="col">Nombre de usuario</th>
-          <th scope="col">Email</th>
-          <th scope="col">Activo</th>
-          <th scope="col">Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of users; let i = index;">
-          <th scope="row">{{i + 1}}</th>
-          
-          <td>
-            <button (cbOnSuccess)="onCopyToClipboard($event)" ngxClipboard [cbContent]="user.id" class="copy-to-clipboard">
-              {{user.id}}
+    <thead class="table-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">ID</th>
+        <th scope="col">Nombre de usuario</th>
+        <th scope="col">Email</th>
+        <th scope="col">Activo</th>
+        <th scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users; let i = index;">
+        <th scope="row">{{i + 1 + (page - 1) * 5}}</th>
+        
+        <td>
+          <button (cbOnSuccess)="onCopyToClipboard($event)" ngxClipboard [cbContent]="user.id" class="copy-to-clipboard">
+            {{user.id}}
+        </button>
+        </td>
+        <td>{{user.username}}</td>
+        <td>{{user.email}}</td>
+        <td>
+          <div class="form-check">
+            <input 
+              class="form-check-input" 
+              type="checkbox" 
+              value="" 
+              id="flexCheckDefault" 
+              [checked]="user.enabled"
+              (change)="onChangeUserEnabledStatus(user)"
+            >
+            <label class="form-check-label" for="flexCheckDefault">
+              {{user.enabled ? "Activo" : "Inactivo"}}
+            </label>
+          </div>
+        </td>
+        <td>
+          <button 
+            class="btn btn-outline-primary me-2"
+            [routerLink]="[ '/users/edit', user.id]"
+          >
+            Editar
           </button>
-          </td>
-          <td>{{user.username}}</td>
-          <td>{{user.email}}</td>
-          <td>
-            <div class="form-check">
-              <input 
-                class="form-check-input" 
-                type="checkbox" 
-                value="" 
-                id="flexCheckDefault" 
-                [checked]="user.enabled"
-                (change)="onChangeUserEnabledStatus(user)"
-              >
-              <label class="form-check-label" for="flexCheckDefault">
-                {{user.enabled ? "Activo" : "Inactivo"}}
-              </label>
-            </div>
-          </td>
-          <td>
-            <button 
-              class="btn btn-outline-primary me-2"
-              [routerLink]="[ '/users/edit', user.id]"
-            >
-              Editar
-            </button>
-            <button 
-              class="btn btn-danger me-2"
-              (click)="deleteUser(user)"
-            >
-              Eliminar
-            </button>
-            <button 
-              class="btn btn-primary"
-              (click)="onResendEmail(user)"
-            >
-              <img style="width: 20px; height: 20px;" src="/assets/icons/resend-icon.svg" alt="Resend">
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          <button 
+            class="btn btn-danger me-2"
+            (click)="deleteUser(user)"
+          >
+            Eliminar
+          </button>
+          <button 
+            class="btn btn-primary"
+            (click)="onResendEmail(user)"
+          >
+            <img style="width: 20px; height: 20px;" src="/assets/icons/resend-icon.svg" alt="Resend">
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <button (click)="previousPage()" [disabled]="page === 1">Previous</button>
+  <button (click)="nextPage()">Next</button>
 </div>

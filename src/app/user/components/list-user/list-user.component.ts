@@ -11,11 +11,15 @@ import Swal from 'sweetalert2';
   styleUrls: ['./list-user.component.css']
 })
 export class ListUserComponent {
+  public page = 1;
   constructor(
     private readonly userService: UserService,
     private snackBar: MatSnackBar
   ){
-
+    this.page = this.userService.page;
+    this.userService.pageChangeSubject.subscribe(value => {
+      this.page = value;
+    });
   }
 
   get users(){
@@ -54,5 +58,11 @@ export class ListUserComponent {
     this.snackBar.open("Copiado al portapapeles", "Cerrar", {
       duration: 3000
     });
+  }
+  previousPage(){
+    this.userService.onPreviousPage()
+  }
+  nextPage(){
+    this.userService.onNextPage()
   }
 }

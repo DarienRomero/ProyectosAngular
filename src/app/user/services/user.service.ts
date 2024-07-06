@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
-import { Subscription } from "rxjs";
+import { AngularFirestore, AngularFirestoreCollection, DocumentData, QueryDocumentSnapshot } from '@angular/fire/compat/firestore';
+import { Subject, Subscription } from "rxjs";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { AppUser } from "../interfaces/user.interface";
 
@@ -20,9 +20,15 @@ export class UserService {
 
     public onlyActiveUsers = false;
 
-    usersRef: AngularFirestoreCollection<AppUser>;
+    public usersRef: AngularFirestoreCollection<AppUser>;
 
     public database: AngularFirestore;
+
+    public perPage = 5;
+    public page = 1;
+    public pageChangeSubject: Subject<number> = new Subject<number>();
+    public startAfter?: any
+    public snapshotSubscription?: Subscription;
 
     constructor(
         private db: AngularFirestore,
@@ -30,29 +36,65 @@ export class UserService {
     ) {
         this.database = db;
         this.usersRef = db.collection(this.dbPath);
-        this.getUsers()
+        this.getUsers(this.perPage, this.startAfter)
+        this.pageChangeSubject.subscribe(page => {
+            this.page = page;
+            this.getUsers(this.perPage, this.startAfter);
+        })
     }
 
     onChangeOnlyActiveUsers(){
         this.onlyActiveUsers = !this.onlyActiveUsers;
-        this.getUsers();
+        this.onReset();
+    }
+
+    onNextPage(){
+        this.pageChangeSubject.next(this.page + 1)
+    }
+    onPreviousPage(){
+        if(this.page == 1) return;
+        this.pageChangeSubject.next(this.page - 1)
+    }
+    onReset(){
+        this.startAfter = undefined;
+        this.pageChangeSubject.next(1)
     }
     
-    getUsers(){
+    getUsers(perPage: number, startAfter?: any){
         this.loadingUsers = true;
         this.errorUsers = false;
-        const query = this.onlyActiveUsers ? 
-            this.database.collection(this.dbPath, ref => ref.where('enabled', '==', true)) : 
-            this.usersRef;
+        const query = this.database.collection(this.dbPath, ref => {
+            let q;
+            if(this.onlyActiveUsers){
+                q = ref.where('enabled', '==', true).orderBy('username').limit(perPage)
+            }else{
+                q = ref.orderBy('username').limit(perPage)
+            }
+            if(startAfter){
+                console.log("Apply filter", startAfter)
+                q = q.startAfter(startAfter)
+            }
+            return q;
+        })
         this.usersStream?.unsubscribe();
-        this.usersStream = query.valueChanges().subscribe(data => {
-            this.errorUsers = false;
-            this.loadingUsers = false;
-            this.users = data as AppUser[];
-        }, error => {
-            this.errorUsers = true;
-            this.loadingUsers = false;
-        });
+        this.usersStream = query.valueChanges().subscribe({
+            next: (data) => {
+                this.errorUsers = false;
+                this.loadingUsers = false;
+                this.users = data as AppUser[];
+                this.snapshotSubscription = this.usersRef.doc(this.users[this.users.length - 1].id).get().subscribe({
+                    next: (data) => {
+                        this.startAfter = data;
+                        this.snapshotSubscription?.unsubscribe();
+                    }
+                })
+            },
+            error: (e) => {
+                this.errorUsers = true;
+                this.loadingUsers = false;
+            },
+            complete: () => console.info('complete') 
+        })
     }
 
     getUserObs(userId: string) {
@@ -99,22 +141,4 @@ export class UserService {
 
         }
     } 
-
-    /* getAll(): AngularFirestoreCollection<Tutorial> {
-        return this.tutorialsRef;
-    }
-
-    create(tutorial: Tutorial): any {
-        return this.tutorialsRef.add({ ...tutorial });
-    }
-
-    update(id: string, data: any): Promise<void> {
-        return this.tutorialsRef.doc(id).update(data);
-    }
-
-    delete(id: string): Promise<void> {
-        return this.tutorialsRef.doc(id).delete();
-    } */
-
-    
 }
