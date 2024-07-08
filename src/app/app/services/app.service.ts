@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
-import { Subscription } from "rxjs";
+import { AngularFirestore, AngularFirestoreCollection, DocumentSnapshot } from '@angular/fire/compat/firestore';
+import { Subject, Subscription } from "rxjs";
 import { AppApp } from "../interfaces/app.interface";
 
 @Injectable({
@@ -20,25 +20,71 @@ export class AppService {
 
     public database: AngularFirestore;
 
+    public perPage = 5;
+    public page = 1;
+    public pageChangeSubject: Subject<number> = new Subject<number>();
+    public startAfterList: DocumentSnapshot<AppApp>[] = [];
+    public snapshotSubscription?: Subscription;
+
     constructor(private db: AngularFirestore) {
         this.database = db;
+        this.startAfterList = [];
         this.appsRef = db.collection(this.dbPath);
-        this.getApps()
+        this.pageChangeSubject.subscribe(page => {
+            this.page = page;
+            this.getApps(this.perPage);
+        })
     }
 
-    getApps(){
+    onReset(){
+        this.startAfterList = []
+        this.page = 1;
+    }
+
+    onStart(){
+        this.getApps(this.perPage)
+    }
+
+    getApps(perPage: number){
         this.loadingApps = true;
         this.errorApps = false;
-        const query = this.appsRef;
+        const query = this.database.collection(this.dbPath, ref => {
+            let q = ref.orderBy('name').limit(perPage)
+            const lastStartAfter = this.startAfterList.at(-1);
+            if(lastStartAfter){
+                q = q.startAfter(lastStartAfter)
+            }
+            return q;
+        })
         this.appsStream?.unsubscribe();
-        this.appsStream = query.valueChanges().subscribe(data => {
-            this.errorApps = false;
-            this.loadingApps = false;
-            this.apps = data as AppApp[];
-        }, error => {
-            this.errorApps = true;
-            this.loadingApps = false;
-        });
+        this.appsStream = query.valueChanges().subscribe({
+            next: (data) => {
+                this.apps = data as AppApp[];
+                if(this.apps.length > 0){
+                    this.snapshotSubscription = this.appsRef.doc(this.apps[this.apps.length - 1].id).get().subscribe({
+                        next: (data) => {
+                            // @ts-ignore:next-line
+                            this.errorApps = false;
+                            this.loadingApps = false;
+                            if(!this.startAfterList.at(this.page - 1)){
+                                // @ts-ignore:next-line
+                                this.startAfterList.push(data);
+                            }
+                            this.snapshotSubscription?.unsubscribe();
+                        }
+                    })
+                }else{
+                    this.errorApps = false;
+                    this.loadingApps = false;
+                    this.snapshotSubscription?.unsubscribe();
+                }
+            },
+            error: (e) => {
+                this.errorApps = true;
+                this.loadingApps = false;
+            },
+            complete: () => console.info('complete') 
+        })
     }
 
     getAppObs(appId: string) {
@@ -68,6 +114,20 @@ export class AppService {
 
     deleteApp(app: AppApp){
         return this.appsRef.doc(app.id).delete();
+    }
+
+    onNextPage(){
+        this.pageChangeSubject.next(this.page + 1)
+    }
+    onPreviousPage(){
+        if(this.startAfterList.length > 0){
+            this.startAfterList.pop();
+        }
+        if(this.startAfterList.length > 0){
+            this.startAfterList.pop();
+        }
+        if(this.page == 1) return;
+        this.pageChangeSubject.next(this.page - 1)
     }
     
 }

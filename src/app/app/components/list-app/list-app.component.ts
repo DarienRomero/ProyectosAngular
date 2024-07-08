@@ -17,6 +17,25 @@ export class ListAppComponent {
 
   }
 
+  ngOnInit(){
+    this.appService.onStart();
+  }
+
+  ngOnDestroy(){
+    this.appService.onReset();
+  }
+
+  get page(){
+    return this.appService.page;
+  }
+
+  get disabledNext(){
+    return this.apps.length < this.appService.perPage;
+  }
+  get loadingApps(){
+    return this.appService.loadingApps;
+  }
+
   get apps(){
     return this.appService.apps;
   }
@@ -30,4 +49,11 @@ export class ListAppComponent {
       duration: 3000
     });
   }
+  previousPage(){
+    this.appService.onPreviousPage()
+  }
+  nextPage(){
+    this.appService.onNextPage()
+  }
+  
 }

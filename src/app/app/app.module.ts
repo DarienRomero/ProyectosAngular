@@ -7,6 +7,7 @@ import { AppHomeComponent } from './pages/app-home/app-home.component';
 import { AppAppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { ClipboardModule } from 'ngx-clipboard';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { ClipboardModule } from 'ngx-clipboard';
   ],
   imports: [
     CommonModule,
+    SharedModule,
     AppAppRoutingModule,
     FormsModule,
     ClipboardModule
