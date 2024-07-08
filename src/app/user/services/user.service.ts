@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { AngularFirestore, AngularFirestoreCollection, DocumentData, DocumentSnapshot, QueryDocumentSnapshot } from '@angular/fire/compat/firestore';
+import { AngularFirestore, AngularFirestoreCollection, DocumentSnapshot } from '@angular/fire/compat/firestore';
 import { Subject, Subscription } from "rxjs";
 import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { AppUser } from "../interfaces/user.interface";
@@ -27,8 +27,7 @@ export class UserService {
     public perPage = 5;
     public page = 1;
     public pageChangeSubject: Subject<number> = new Subject<number>();
-    public startAfter?: DocumentSnapshot<AppUser>;
-    public startAfterSubject: Subject<number> = new Subject<number>();
+    public startAfterList: DocumentSnapshot<AppUser>[] = [];
     public snapshotSubscription?: Subscription;
 
     constructor(
@@ -36,11 +35,11 @@ export class UserService {
         private afAuth: AngularFireAuth,
     ) {
         this.database = db;
+        this.startAfterList = [];
         this.usersRef = db.collection(this.dbPath);
-        this.getUsers(this.perPage, this.startAfter)
         this.pageChangeSubject.subscribe(page => {
             this.page = page;
-            this.getUsers(this.perPage, this.startAfter);
+            this.getUsers(this.perPage);
         })
     }
 
@@ -53,15 +52,25 @@ export class UserService {
         this.pageChangeSubject.next(this.page + 1)
     }
     onPreviousPage(){
+        if(this.startAfterList.length > 0){
+            this.startAfterList.pop();
+        }
+        if(this.startAfterList.length > 0){
+            this.startAfterList.pop();
+        }
         if(this.page == 1) return;
         this.pageChangeSubject.next(this.page - 1)
     }
     onReset(){
-        this.startAfter = undefined;
-        this.pageChangeSubject.next(1)
+        this.startAfterList = []
+        this.page = 1;
+    }
+
+    onStart(){
+        this.getUsers(this.perPage)
     }
     
-    getUsers(perPage: number, startAfter?: any){
+    getUsers(perPage: number){
         this.loadingUsers = true;
         this.errorUsers = false;
         const query = this.database.collection(this.dbPath, ref => {
@@ -71,8 +80,9 @@ export class UserService {
             }else{
                 q = ref.orderBy('username').limit(perPage)
             }
-            if(startAfter){
-                q = q.startAfter(startAfter)
+            const lastStartAfter = this.startAfterList.at(-1);
+            if(lastStartAfter){
+                q = q.startAfter(lastStartAfter)
             }
             return q;
         })
@@ -84,14 +94,16 @@ export class UserService {
                     this.snapshotSubscription = this.usersRef.doc(this.users[this.users.length - 1].id).get().subscribe({
                         next: (data) => {
                             // @ts-ignore:next-line
-                            this.startAfter = data;
                             this.errorUsers = false;
                             this.loadingUsers = false;
+                            if(!this.startAfterList.at(this.page - 1)){
+                                // @ts-ignore:next-line
+                                this.startAfterList.push(data);
+                            }
                             this.snapshotSubscription?.unsubscribe();
                         }
                     })
                 }else{
-                    this.startAfter = undefined;
                     this.errorUsers = false;
                     this.loadingUsers = false;
                     this.snapshotSubscription?.unsubscribe();

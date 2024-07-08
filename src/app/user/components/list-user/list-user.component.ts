@@ -15,6 +15,15 @@ export class ListUserComponent {
     private readonly userService: UserService,
     private snackBar: MatSnackBar
   ){
+    console.log("Call constructor")
+  }
+
+  ngOnInit(){
+    this.userService.onStart();
+  }
+
+  ngOnDestroy(){
+    this.userService.onReset();
   }
 
   get page(){
