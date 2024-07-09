@@ -16,7 +16,8 @@ export class EditUserComponent {
     enabled:      false,
     id:           "",
     username:     "",
-    apps_enabled: []
+    apps_enabled: [],
+    role: ""
   };
   constructor(
     private readonly appService: AppService,

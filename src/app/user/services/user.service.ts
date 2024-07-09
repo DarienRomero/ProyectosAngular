@@ -144,7 +144,8 @@ export class UserService {
             email: newUser.email,
             apps_enabled: newUser.apps_enabled,
             enabled: newUser.enabled,
-            username: newUser.username
+            username: newUser.username,
+            role: newUser.role,
           };
           await this.usersRef.doc(user.id).set(user);
           await this.afAuth.sendPasswordResetEmail(newUser.email);

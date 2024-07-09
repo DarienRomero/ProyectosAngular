@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { AuthService } from './auth/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +12,25 @@ export class AppComponent {
   title = 'apk_manager';
   showSidebar: boolean = false;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {
+    authService.accessSubject.subscribe(access => {
+      if(!access){
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          text: 'No tienes permisos para acceder a esta aplicación',
+          showConfirmButton: false,
+          timer: 5000
+        });
+        this.authService.signOut().then(() => {
+          router.navigate(['/auth']);
+        })
+      }
+    });
+  }
 
   ngOnInit() {
     this.router.events.subscribe(event => {

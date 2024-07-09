@@ -18,12 +18,25 @@ export class LoginComponent {
     private authService: AuthService, 
     private router: Router,
   ) {
+    authService.newUserSubject.subscribe(newUser => {
+      if(newUser.role !== 'admin'){
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          text: 'No tienes permisos para acceder a esta aplicación',
+          showConfirmButton: false,
+          timer: 5000
+        });
+        this.authService.signOut()
+      }else{
+        this.router.navigate(['/apps']);
+      }
+    })
   }
 
   onLogin() {
     this.authService.login(this.email, this.password).then((value) => {
-      console.log("Value", value)
-      this.router.navigate(['/']);
+      
     }).catch(error => {
       Swal.fire({
         position: 'center',

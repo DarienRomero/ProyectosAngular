@@ -4,4 +4,5 @@ export interface AppUser {
     id:           string;
     username:     string;
     apps_enabled: string[];
+    role: string;
 }

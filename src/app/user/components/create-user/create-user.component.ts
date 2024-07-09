@@ -16,7 +16,8 @@ export class CreateUserComponent {
     enabled:      true,
     id:           "",
     username:     "",
-    apps_enabled: []
+    apps_enabled: [],
+    role: ""
   };
   public password = "";
   constructor(
