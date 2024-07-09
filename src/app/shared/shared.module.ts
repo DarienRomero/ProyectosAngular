@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { RouterModule } from '@angular/router';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -12,10 +13,12 @@ import { LoadingSpinnerComponent } from './components/loading-spinner/loading-sp
   imports: [
     CommonModule,
     RouterModule,
+    ReactiveFormsModule
   ],
   exports: [
     SidebarComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    ReactiveFormsModule
   ]
 })
 export class SharedModule { }

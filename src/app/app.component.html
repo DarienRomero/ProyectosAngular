@@ -1,5 +1,5 @@
 <div class="d-flex">
-  <app-sidebar></app-sidebar>
+  <app-sidebar *ngIf="showSidebar"></app-sidebar>
   <div class="flex-fill">
     <router-outlet></router-outlet>
   </div>
