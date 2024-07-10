@@ -34,6 +34,10 @@ export class LoginComponent {
     })
   }
 
+  get loadingLogin () {
+    return this.authService.loadingLogin
+  }
+
   onLogin() {
     this.authService.login(this.email, this.password).then((value) => {
       

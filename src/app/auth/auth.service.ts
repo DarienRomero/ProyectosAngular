@@ -18,6 +18,8 @@ export class AuthService {
   public userSubs?: Subscription;
   public loginUserSubs?: Subscription;
 
+  public loadingLogin: boolean = false;
+
   constructor(
     private afAuth: AngularFireAuth,
     private db: AngularFirestore,
@@ -27,9 +29,11 @@ export class AuthService {
   }
   async login(email: string, password: string) {
     let resp;
+    this.loadingLogin = true;
     try{
       resp = await this.afAuth.signInWithEmailAndPassword(email, password);
     }catch(error: unknown){
+      this.loadingLogin = false;
       var errorCode = (error as any).code;
       if (errorCode === 'auth/wrong-password') {
         throw Error('Contraseña incorrecta');
@@ -48,6 +52,7 @@ export class AuthService {
     this.loginUserSubs = this.usersRef.doc(data).get().subscribe((snapshot) => {
       const user = snapshot.data();
       if(user){
+        this.loadingLogin = false
         this.newUserSubject.next(user)
       }
       this.loginUserSubs?.unsubscribe();
