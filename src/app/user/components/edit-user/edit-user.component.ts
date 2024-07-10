@@ -1,9 +1,10 @@
-import { Component, SimpleChanges } from '@angular/core';
+import { Component } from '@angular/core';
 import { AppUser } from '../../interfaces/user.interface';
 import { AppService } from '../../../app/services/app.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import Swal from 'sweetalert2';
+import { RoleService } from '../../services/role.service';
 
 @Component({
   selector: 'edit-user',
@@ -19,21 +20,37 @@ export class EditUserComponent {
     apps_enabled: [],
     role: ""
   };
+  
   constructor(
     private readonly appService: AppService,
     private readonly userService: UserService,
+    private readonly roleService: RoleService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
   ){
-
   }
 
   get apps(){
     return this.appService.apps
   }
 
+  get allAps(){
+    return this.appService.allApps
+  }
+  get allAppsLoading(){
+    return this.appService.allAppsLoading
+  }
+
+  public loadingUser = false;
+
   ngOnInit(): void {
     this.readCurrentUser();
+    this.roleService.getRoles();
+    this.appService.readAllApps();
+  }
+
+  get roles(){
+    return this.roleService.roles
   }
 
   readCurrentUser(){
@@ -44,10 +61,23 @@ export class EditUserComponent {
     if(!Boolean(id.length)){
       this.router.navigateByUrl('');
     }
-    this.userService.getUserObs(id).subscribe(data => {
-      this.userToEdit = data.data() as AppUser;
-    }, error => {
-
+    this.loadingUser = true;
+    this.userService.getUserObs(id).subscribe({
+      next: (data) => {
+        this.loadingUser = false;
+        this.userToEdit = data.data() as AppUser;
+        console.log("this.userToEdit", this.userToEdit)
+      },
+      error: (error) => {
+        this.loadingUser = false;
+        Swal.fire({
+          title: 'Ocurrió un error!',
+          text: 'El usuario no pudo ser cargado',
+          icon: 'error',
+          confirmButtonText: 'Cool',
+          timer: 10000
+        })    
+      }
     })
   }
 
@@ -58,7 +88,6 @@ export class EditUserComponent {
     }else{
       this.userToEdit.apps_enabled.push(appId);
     }
-    console.log("new user", this.userToEdit);
   }
 
   editUser(){

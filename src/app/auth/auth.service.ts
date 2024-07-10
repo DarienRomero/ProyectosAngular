@@ -20,6 +20,8 @@ export class AuthService {
 
   public loadingLogin: boolean = false;
 
+  public currentUser?: AppUser;
+
   constructor(
     private afAuth: AngularFireAuth,
     private db: AngularFirestore,
@@ -53,6 +55,7 @@ export class AuthService {
       const user = snapshot.data();
       if(user){
         this.loadingLogin = false
+        this.currentUser = user
         this.newUserSubject.next(user)
       }
       this.loginUserSubs?.unsubscribe();
@@ -71,6 +74,7 @@ export class AuthService {
   }
 
   signOut() {
+    this.currentUser = undefined;
     this.cleanSubjects();
     return this.afAuth.signOut();
   }

@@ -24,7 +24,7 @@ export class UserService {
 
     public database: AngularFirestore;
 
-    public perPage = 5;
+    public perPage = 8;
     public page = 1;
     public pageChangeSubject: Subject<number> = new Subject<number>();
     public startAfterList: DocumentSnapshot<AppUser>[] = [];

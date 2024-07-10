@@ -35,11 +35,9 @@ export class CreateAppComponent {
   }
 
   onFileSelected(event: Event): void {
-    console.log("onFileSelected", event)
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
-      console.log("file selected", file)
       this.file = file;
       // Handle the file as needed, e.g., upload it to a server, read its content, etc.
     }
@@ -47,24 +45,19 @@ export class CreateAppComponent {
 
   onUploadFile(appId: string){
     this.uploadingFile = true;
-    console.log("Start uplading file...", this.file);
     this.fileUploadService.uploadFile(this.file!, appId).subscribe(
       (event: HttpEvent<any>) => {
         switch (event.type) {
           case HttpEventType.UploadProgress:
             if (event.total) {
               const progress = Math.round((100 * event.loaded) / event.total);
-              console.log(`File is ${progress}% uploaded.`);
             }
             break;
           case HttpEventType.Response:
-            console.log('File successfully uploaded!', event.body);
             this.appToCreate.last_version_link = event.body.url;
-            console.log("this.appToCreate", this.appToCreate, "event.body.url", event.body.url)
             this.onUpdateApp()
             break;
           default:
-            console.log('Unhandled event:', event.type);
         }
       },
       (error) => {

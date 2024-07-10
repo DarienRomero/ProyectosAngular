@@ -34,7 +34,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let user of users; let i = index;">
-        <th scope="row">{{i + 1 + (page - 1) * 5}}</th>
+        <th scope="row">{{i + 1 + (page - 1) * perPage}}</th>
         
         <td>
           <button (cbOnSuccess)="onCopyToClipboard($event)" ngxClipboard [cbContent]="user.id" class="copy-to-clipboard">

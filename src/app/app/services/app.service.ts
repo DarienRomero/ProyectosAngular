@@ -20,7 +20,7 @@ export class AppService {
 
     public database: AngularFirestore;
 
-    public perPage = 5;
+    public perPage = 8;
     public page = 1;
     public pageChangeSubject: Subject<number> = new Subject<number>();
     public startAfterList: DocumentSnapshot<AppApp>[] = [];
@@ -87,6 +87,30 @@ export class AppService {
         })
     }
 
+    /************ READ ALL APPS********/
+
+    public allAppsLoading = false;
+    public allAppsError = false;
+    public allApps: AppApp[] = [];
+    public allAppsSubscription?: Subscription;
+    readAllApps(){
+        if(this.allAppsSubscription) return;
+        this.allAppsError = false;
+        this.allAppsLoading = true;
+        this.allAppsSubscription = this.database.collection<AppApp[]>(this.dbPath).valueChanges().subscribe({
+            next: (values) => {
+                this.allAppsError = false;
+                this.allAppsLoading = false;
+                // @ts-ignore:next-line
+                this.allApps = values
+            },
+            error: (error) => {
+                this.allAppsError = true;
+                this.allAppsLoading = false;
+            }
+        }); 
+    }
+
     getAppObs(appId: string) {
         return this.appsRef.doc(appId).get();
     }
@@ -128,6 +152,11 @@ export class AppService {
         }
         if(this.page == 1) return;
         this.pageChangeSubject.next(this.page - 1)
+    }
+
+    clean(){
+        this.allAppsSubscription?.unsubscribe();
+        this.allAppsSubscription = undefined;
     }
     
 }

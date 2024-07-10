@@ -4,6 +4,7 @@ import { AppService } from 'src/app/app/services/app.service';
 import { UserService } from '../../services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { RoleService } from '../../services/role.service';
 
 @Component({
   selector: 'create-user',
@@ -23,14 +24,35 @@ export class CreateUserComponent {
   constructor(
     private readonly appService: AppService,
     private readonly userService: UserService,
+    private readonly roleService: RoleService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
   ){
 
   }
 
+  ngOnInit(): void {
+    this.appService.readAllApps();
+    this.roleService.getRoles();
+  }
+
   get apps(){
     return this.appService.apps
+  }
+
+  get allApps(){
+    return this.appService.allApps
+  }
+
+  get allAppsLoading(){
+    return this.appService.allAppsLoading
+  }
+
+  get roles(){
+    return this.roleService.roles
+  }
+  get loadingRoles(){
+    return this.roleService.loadingRoles
   }
 
   onChangeSelectedApp(appId: string){
@@ -40,7 +62,6 @@ export class CreateUserComponent {
     }else{
       this.userToCreate.apps_enabled.push(appId);
     }
-    console.log("new user", this.userToCreate);
   }
 
   async createUser() {

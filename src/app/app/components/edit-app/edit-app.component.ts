@@ -64,11 +64,9 @@ export class EditAppComponent {
   }
 
   onFileSelected(event: Event): void {
-    console.log("onFileSelected", event)
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
-      console.log("file selected", file)
       this.file = file;
       // Handle the file as needed, e.g., upload it to a server, read its content, etc.
     }
@@ -85,7 +83,6 @@ export class EditAppComponent {
   }
   onUploadFile(){
     this.editing = true;
-    console.log("Start uplading file...", this.file);
     if(this.file){
       this.fileUploadService.uploadFile(this.file, this.appToEdit.id).subscribe(
         (event: HttpEvent<any>) => {
@@ -93,17 +90,13 @@ export class EditAppComponent {
             case HttpEventType.UploadProgress:
               if (event.total) {
                 const progress = Math.round((100 * event.loaded) / event.total);
-                console.log(`File is ${progress}% uploaded.`);
               }
               break;
             case HttpEventType.Response:
-              console.log('File successfully uploaded!', event.body);
               this.appToEdit.last_version_link = event.body.url;
-              console.log("this.appToEdit", this.appToEdit, "event.body.url", event.body.url)
               this.onUpdateApp()
               break;
             default:
-              console.log('Unhandled event:', event.type);
           }
         },
         (error) => {
@@ -118,7 +111,6 @@ export class EditAppComponent {
         }
       );
     }else{
-      console.log("No hay archivo para subir")
       this.onUpdateApp()
     }
   }

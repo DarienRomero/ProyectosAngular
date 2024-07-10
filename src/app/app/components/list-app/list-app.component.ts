@@ -29,6 +29,10 @@ export class ListAppComponent {
     return this.appService.page;
   }
 
+  get perPage(){
+    return this.appService.perPage;
+  }
+
   get disabledNext(){
     return this.apps.length < this.appService.perPage;
   }
@@ -44,7 +48,6 @@ export class ListAppComponent {
     this.appService.deleteApp(app);
   }
   onCopyToClipboard(data: IClipboardResponse){
-    console.log("onCopyToClipboard")
     this.snackBar.open("Copiado al portapapeles", "Cerrar", {
       duration: 3000
     });

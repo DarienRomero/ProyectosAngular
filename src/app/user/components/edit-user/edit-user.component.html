@@ -1,3 +1,4 @@
+<app-loading-spinner *ngIf="loadingUser || allAppsLoading"></app-loading-spinner>
 <div class="row d-flex f-row justify-content-center align-items-center edit-user-canvas">
     <div class="col-10 col-md-8 col-lg-6">
         <form #formEditUser="ngForm" class="row" id="form-edit-user" (ngSubmit)="editUser()">
@@ -10,8 +11,12 @@
                 placeholder="Nombre de usuario"
                 required="true"
             >
+            <label for="role-select">Rol</label>
+            <select class="form-control mb-3" id="role-select" [(ngModel)]="userToEdit.role" [ngModelOptions]="{standalone: true}">
+                <option *ngFor="let role of roles" [value]="role.label">{{ role.label }}</option>
+            </select>
             <label class="mb-2 ps-0">Aplicaciones disponibles</label>
-            <div *ngFor="let app of apps" class="form-check mb-2">
+            <div *ngFor="let app of allAps" class="form-check mb-2">
                 <input 
                   class="form-check-input" 
                   type="checkbox" 

@@ -17,7 +17,6 @@ export class SidebarComponent {
   }
 
   onSignOut(){
-    console.log('Sign Out');
     this.authService.signOut().then(() => {
       this.router.navigateByUrl("/auth")
     })

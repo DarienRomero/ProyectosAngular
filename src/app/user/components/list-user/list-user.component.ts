@@ -15,7 +15,6 @@ export class ListUserComponent {
     private readonly userService: UserService,
     private snackBar: MatSnackBar
   ){
-    console.log("Call constructor")
   }
 
   ngOnInit(){
@@ -28,6 +27,9 @@ export class ListUserComponent {
 
   get page(){
     return this.userService.page;
+  }
+  get perPage(){
+    return this.userService.perPage;
   }
 
   get disabledNext(){
@@ -69,7 +71,6 @@ export class ListUserComponent {
     })
   }
   onCopyToClipboard(data: IClipboardResponse){
-    console.log("onCopyToClipboard")
     this.snackBar.open("Copiado al portapapeles", "Cerrar", {
       duration: 3000
     });

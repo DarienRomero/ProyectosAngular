@@ -1,3 +1,4 @@
+<app-loading-spinner *ngIf="loadingRoles || allAppsLoading"></app-loading-spinner>
 <div class="row d-flex f-row justify-content-center align-items-center create-user-canvas">
     <div class="col-10 col-md-8 col-lg-6">
         <form #formCreateUser="ngForm" class="row" id="form-create-user" (ngSubmit)="createUser()">
@@ -28,8 +29,12 @@
                 placeholder="Contraseña"
                 required="true"
             >
+            <label for="role-select">Rol</label>
+            <select class="form-control mb-3" id="role-select" [(ngModel)]="userToCreate.role" [ngModelOptions]="{standalone: true}">
+                <option *ngFor="let role of roles" [value]="role.label">{{ role.label }}</option>
+            </select>
             <label class="mb-2 ps-0">Aplicaciones disponibles</label>
-            <div *ngFor="let app of apps" class="form-check mb-2">
+            <div *ngFor="let app of allApps" class="form-check mb-2">
                 <input 
                   class="form-check-input" 
                   type="checkbox" 

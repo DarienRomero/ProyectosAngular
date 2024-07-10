@@ -31,9 +31,7 @@ export class NotifService {
                 'Authorization': `key=${this.fcmToken}`
             }
         }).subscribe( resp => {
-            console.log("Message sent", resp)
         }, error => {
-            console.log("Notification error")
         });
     }
 }

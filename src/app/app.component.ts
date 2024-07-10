@@ -35,7 +35,6 @@ export class AppComponent {
   ngOnInit() {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        console.log("Event", event)
         this.showSidebar = event.url !== '/auth';
       }
     });
